@@ -1,5 +1,5 @@
 
-class Doc {
+class Root {
     constructor(tag) {
         this.contents = [`<${tag}>`]
     }
@@ -21,21 +21,21 @@ function $(tag, attr) {
 
     return function (..._nodes) {
 
-        let doc = new Doc(tag);
+        let root = new Root(tag);
 
         for (let node of _nodes) {
 
             if (typeof node == 'string' || typeof node == 'function') {
-                doc.contents.push(node);
+                root.contents.push(node);
             }
             else {
-                doc.contents.push(...node.contents);
+                root.contents.push(...node.contents);
             }
         }
 
-        doc.contents.push(`<\\${tag}>`);
+        root.contents.push(`</${tag}>`);
 
-        return doc;
+        return root;
     }
 }
 
