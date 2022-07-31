@@ -1,4 +1,4 @@
-export function $(tag: string, attr: object) {
+function $(tag: string, attr?: object): (...nodes: Array<string | Function>) => ((it: any) => Promise<string>) {
 
     if (typeof attr == `object`) {
         var sattr: string = Object.entries(attr).map(([key, value]) => {
@@ -13,13 +13,13 @@ export function $(tag: string, attr: object) {
 
     let closingTag = `</${tag}>`;
 
-    return function (...nodes: Array<string|Function>) {
+    return function (...nodes: Array<string | Function>): ((it: any) => Promise<string>) {
 
         if (nodes.length) {
 
-            return async function (it: any) {
+            return async function (it: any): Promise<string> {
 
-                return `${openingTag}${(await Promise.all(nodes.map(async (node: string|Function) => {
+                return `${openingTag}${(await Promise.all(nodes.map(async (node: string | Function) => {
 
                     if (typeof node == `string`) {
                         return node;
@@ -47,12 +47,12 @@ export function $(tag: string, attr: object) {
             }
         }
         else {
-            return openingTag;
+            return async function() { return openingTag};
         }
     }
 }
 
 let el = $;
 
-export {el};
+export { $, el };
 

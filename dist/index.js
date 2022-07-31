@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.el = exports.$ = void 0;
 function $(tag, attr) {
     if (typeof attr == `object`) {
         var sattr = Object.entries(attr).map(([key, value]) => {
@@ -35,10 +32,9 @@ function $(tag, attr) {
             };
         }
         else {
-            return openingTag;
+            return async function () { return openingTag; };
         }
     };
 }
-exports.$ = $;
 let el = $;
-exports.el = el;
+export { $, el };
