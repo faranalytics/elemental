@@ -2,7 +2,7 @@
   "name": "elemental",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/faranalytics/elemental/issues"
   },
-  "homepage": "https://github.com/faranalytics/elemental#readme"
+  "homepage": "https://github.com/faranalytics/elemental#readme",
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  }
 }
