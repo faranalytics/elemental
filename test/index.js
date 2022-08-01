@@ -4,6 +4,8 @@ import { $ } from '../dist/index.js'
 
     try {
 
+        let content = $('div')
+
         let template = $('html')(
             $('head')(
                 $('title', { id: 'a', class: 'title' })('The Title.')
@@ -12,26 +14,25 @@ import { $ } from '../dist/index.js'
                 $('div', { id: 'main' })(
                     $('h1')("Heading"),
                     $('br')(),
-                    async (sub) => {
-                        return $('div')(
-                            $('div')(sub),
-                            $('div')('TEST2')
-                        )(sub);
-                        // throw new Error('TEST1')
-                    }
+                    $('div')(
+                        content,
+                        $('div')("TEST2")
+                    ),
+                    $('footer')(),
                 ),
-                $('footer')(),
-            ),
-            $('script')()
+                $('script')()
+            )
         )
 
-        let result1 = await template('TEST123');
+        content("TEST-123");
+
+        let result1 = await template();
 
         console.log(result1)
 
-        let result2 = await template('TESTABC');
+        // let result2 = await template('TESTABC');
 
-        console.log(result2)
+        // console.log(result2)
     }
     catch (e) {
         console.log('catch', e);

@@ -1,5 +1,5 @@
 {
-  "name": "elemental",
+  "name": "@faranalytics/elemental",
   "version": "1.0.0",
   "description": "",
   "main": "./dist/index.js",
@@ -19,5 +19,5 @@
   "devDependencies": {
     "typescript": "^4.7.4"
   },
-  "type":"module"
+  "type": "module"
 }

@@ -1,3 +1,16 @@
+class Elemental {
+
+    public r: any;
+    public promise: Promise<string>;
+
+    constructor() {
+
+        this.promise = new Promise((r, j) => {
+            this.r = r;
+        });
+    }
+}
+
 function $(tag: string, attr?: object): (...nodes: Array<string | Function>) => ((it: any) => Promise<string>) {
 
     if (typeof attr == `object`) {
@@ -13,20 +26,23 @@ function $(tag: string, attr?: object): (...nodes: Array<string | Function>) => 
 
     let closingTag = `</${tag}>`;
 
-    return function (...nodes: Array<string | Function>): ((it: any) => Promise<string>) {
+    function el(this: Elemental, ...nodes: Array<string | Function>): ((it: any) => Promise<string>) {
+
+        this.r();
 
         if (nodes.length) {
 
-            return async function (it: any): Promise<string> {
+            return async (sub: any): Promise<string> => {
 
                 return `${openingTag}${(await Promise.all(nodes.map(async (node: string | Function) => {
 
                     if (typeof node == `string`) {
+                        
                         return node;
                     }
                     else if (typeof node == `function`) {
 
-                        let render: string = await node(it);
+                        let render: string = await node(sub);
 
                         if (typeof render == `string`) {
                             return render;
@@ -47,9 +63,13 @@ function $(tag: string, attr?: object): (...nodes: Array<string | Function>) => 
             }
         }
         else {
-            return async function() { return openingTag};
+            return async function () { return openingTag };
         }
     }
+
+    let elemental = new Elemental();
+
+    return el.bind(elemental);
 }
 
 let el = $;

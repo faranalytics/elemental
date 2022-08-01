@@ -1,3 +1,12 @@
+class Elemental {
+    r;
+    promise;
+    constructor() {
+        this.promise = new Promise((r, j) => {
+            this.r = r;
+        });
+    }
+}
 function $(tag, attr) {
     if (typeof attr == `object`) {
         var sattr = Object.entries(attr).map(([key, value]) => {
@@ -9,15 +18,16 @@ function $(tag, attr) {
         var openingTag = `<${tag}>`;
     }
     let closingTag = `</${tag}>`;
-    return function (...nodes) {
+    function el(...nodes) {
+        this.r();
         if (nodes.length) {
-            return async function (it) {
+            return async (sub) => {
                 return `${openingTag}${(await Promise.all(nodes.map(async (node) => {
                     if (typeof node == `string`) {
                         return node;
                     }
                     else if (typeof node == `function`) {
-                        let render = await node(it);
+                        let render = await node(sub);
                         if (typeof render == `string`) {
                             return render;
                         }
@@ -34,7 +44,9 @@ function $(tag, attr) {
         else {
             return async function () { return openingTag; };
         }
-    };
+    }
+    let elemental = new Elemental();
+    return el.bind(elemental);
 }
 let el = $;
 export { $, el };
